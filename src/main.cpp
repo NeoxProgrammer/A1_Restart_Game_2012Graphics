@@ -208,6 +208,7 @@ int main()
             break;
         case 3:
         {
+            /*
             glUseProgram(a1_tri_shader);
 
             float time = Time();
@@ -217,7 +218,7 @@ int main()
             Vector3 C = Vector3Lerp(A, B, a);
 
             Matrix s = MatrixScale(2.f, 2.f, 2.f);
-            Matrix r = MatrixRotateZ(0.0f * DEG2RAD);
+			Matrix r = MatrixRotateZ(0.0f * DEG2RAD);// Rotation is not changing, so can be set to 0
             Matrix t = MatrixTranslate(C.x, C.y, C.z);
 
             Matrix world = s * r * t;
@@ -249,7 +250,22 @@ int main()
 
             glUniform3f(u_color, 1.0f, 1.0f, 1.0f);
             glBindVertexArray(vertex_array_rainbow);
-            glDrawArrays(GL_TRIANGLES, 0, 3);
+            glDrawArrays(GL_TRIANGLES, 0, 3);/**/
+
+			glUseProgram(a1_tri_shader);
+			float time = Time();
+			float a = cosf(time) * 0.5f + 0.5f;// Interpolation factor between 0 and 1
+
+			Vector3 A = { -10.0f, 10.0f, 0.0f };
+			Vector3 B = { 10.0f,10.0f, 0.0f };
+			Vector3 c = Vector3Lerp(A, B, a);// Interpolated position between A and B
+
+			Matrix s = MatrixScale(2.f, 2.f, 2.f);
+			Matrix r = MatrixRotateZ(0.0f * DEG2RAD);
+			Matrix t = MatrixTranslate(c.x, c.y, c.z);// Translation matrix based on interpolated position
+
+
+
 
             break;
         }
