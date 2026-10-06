@@ -6,6 +6,12 @@
 #include  <iostream>
 using  namespace std;
 
+
+
+float mlerp(float a, float b, float t) {
+    return a + (b - a) * t;
+}
+
 struct Vertex
 {
     Vector2 pos;   // offset of 0
@@ -164,7 +170,7 @@ int main()
             glDrawArrays(GL_TRIANGLES, 0, 3);
             */
             std::cout << "Object 0 selected" << std::endl;
-            std::cout << "Object 0 selected" << std::endl;
+            
             glUseProgram(a1_tri_shader);
             world = MatrixScale(3.f, 3.f, 3.f);
             mvp = world * view * proj;
@@ -175,7 +181,7 @@ int main()
             break;
 
 			// creating a rainbow triangle with 3 different colors for each vertex
-        case 1:
+        case 1: {
             /*glPointSize(10);
             glUseProgram(a1_tri_shader);
             world = MatrixIdentity();
@@ -197,18 +203,36 @@ int main()
             break;
 
 
+        }
 
 
-        case 2:
+
+        case 2: {
+
+
+
+			
+			cout << "Rainbow triangle with changing color selected" << endl;
+            float time = Time();
+
+			
+            float t = sin(time) * 0.2f + 0.8f;
+			
+
+            
             glUseProgram(a1_tri_shader);
-            world = MatrixScale(2.f, 2.f, 2.f);
+            world = MatrixScale(4.f, 4.f, 4.f);
             mvp = world * view * proj;
-            glUniformMatrix4fv(u_mvp, 1, GL_FALSE, MatrixToFloat(mvp));
-            glUniform3f(u_color, 1.0f, 1.0f, 1.0f);
+            glUniformMatrix4fv(u_mvp, 1, GL_FALSE, MatrixToFloat(mvp));// 
+            //glUniform3f(u_color, 1.0f, 1.0f, 1.0f);
+            glUniform3f(u_color, t, t, t);
             glBindVertexArray(vertex_array_rainbow);
             glDrawArrays(GL_TRIANGLES, 0, 3);
+
+
             break;
-        
+
+        }
         case 3:
         {
             /*
@@ -308,7 +332,7 @@ int main()
             glUniform3f(u_color, 1.0f, 1.0f, 1.0f);
             glBindVertexArray(vertex_array_rainbow);
             glDrawArrays(GL_TRIANGLES, 0, 3);
-            cout << "Last Triangle selected" << endl;
+            cout << "Last Rotating Triangle selected" << endl;
 
             
 
