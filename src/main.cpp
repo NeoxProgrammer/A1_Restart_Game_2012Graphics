@@ -4,6 +4,8 @@
 #include <cstddef>
 
 #include  <iostream>
+using  namespace std;
+
 struct Vertex
 {
     Vector2 pos;   // offset of 0
@@ -206,6 +208,7 @@ int main()
             glBindVertexArray(vertex_array_rainbow);
             glDrawArrays(GL_TRIANGLES, 0, 3);
             break;
+        
         case 3:
         {
             /*
@@ -222,8 +225,8 @@ int main()
             Matrix t = MatrixTranslate(C.x, C.y, C.z);
 
             Matrix world = s * r * t;
-            Matrix view = MatrixLookAt({ 0.f, 0.f, 10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
-            Matrix proj = MatrixOrtho(-10.f, 10.f, -10.f, 10.f, 0.1f, 100.f);
+			Matrix view = MatrixLookAt({ 0.f, 0.f, 10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });// View matrix is not changing, so can be set to a constant value
+			Matrix proj = MatrixOrtho(-10.f, 10.f, -10.f, 10.f, 0.1f, 100.f);// Projection matrix is not changing, so can be set to a constant value
             Matrix mvp = world * view * proj;
 
             glUniformMatrix4fv(u_mvp, 1, GL_FALSE, MatrixToFloat(mvp));
@@ -256,23 +259,86 @@ int main()
 			float time = Time();
 			float a = cosf(time) * 0.5f + 0.5f;// Interpolation factor between 0 and 1
 
-			Vector3 A = { -10.0f, 10.0f, 0.0f };
-			Vector3 B = { 10.0f,10.0f, 0.0f };
+            Vector3 A = { -8.0f, 3.0f, 0.0f };
+            Vector3 B = { 8.0f, 3.0f, 0.0f };
 			Vector3 c = Vector3Lerp(A, B, a);// Interpolated position between A and B
 
-			Matrix s = MatrixScale(2.f, 2.f, 2.f);
+			Matrix s = MatrixScale(3.f, 3.f, 3.f);
 			Matrix r = MatrixRotateZ(0.0f * DEG2RAD);
 			Matrix t = MatrixTranslate(c.x, c.y, c.z);// Translation matrix based on interpolated position
 
-
-
+			Matrix world = s * r * t;
+			Matrix view = MatrixLookAt({ 0.f, 0.f, 10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
+			Matrix proj = MatrixOrtho(-10.f, 10.f, -10.f, 10.f, 0.1f, 100.f);
+			Matrix mvp = world * view * proj;
+			glUniformMatrix4fv(u_mvp, 1, GL_FALSE, MatrixToFloat(mvp));
+			glUniform3f(u_color, 1.0f, 1.0f, 1.0f);
+			glBindVertexArray(vertex_array_rainbow);
+			glDrawArrays(GL_TRIANGLES, 0, 3);
+			cout << "Moving triangle from left to right selected" << endl;
 
             break;
         }
+
+        
         case 4:
         {
 
+
             glUseProgram(a1_tri_shader);
+            float time = Time();
+            float a = cosf(time) * 0.5f + 0.5f;// Interpolation factor between 0 and 1
+
+            Vector3 A = { -2.5f, 3.0f, 0.0f };
+            Vector3 B = { -2.5f, 3.0f, 0.0f };
+            Vector3 c = Vector3Lerp(A, B, a);// Interpolated position between A and B
+
+            Matrix s = MatrixScale(3.f, 3.f, 3.f);
+
+
+            float angle = time * 90.0f; 
+            Matrix r = MatrixRotateZ(angle * DEG2RAD);
+            Matrix t = MatrixTranslate(c.x, c.y, c.z);// Translation matrix based on interpolated position
+
+            Matrix world = s * r * t;
+            Matrix view = MatrixLookAt({ 0.f, 0.f, 10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
+            Matrix proj = MatrixOrtho(-10.f, 10.f, -10.f, 10.f, 0.1f, 100.f);
+            Matrix mvp = world * view * proj;
+            glUniformMatrix4fv(u_mvp, 1, GL_FALSE, MatrixToFloat(mvp));
+            glUniform3f(u_color, 1.0f, 1.0f, 1.0f);
+            glBindVertexArray(vertex_array_rainbow);
+            glDrawArrays(GL_TRIANGLES, 0, 3);
+            cout << "Last Triangle selected" << endl;
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            /*glUseProgram(a1_tri_shader);
 
             Matrix view = MatrixLookAt({ 0.f, 0.f, 10.f }, { 0.f, 0.f, 0.f }, { 0.f, 1.f, 0.f });
             Matrix proj = MatrixOrtho(-10.f, 10.f, -10.f, 10.f, 0.1f, 100.f);
@@ -289,7 +355,7 @@ int main()
             Vector3 sB = { 5.0f, 5.0f, 1.0f };
             Vector3 sC = Vector3Lerp(sA, sB, a);
 
-            Quaternion qA = QuaternionIdentity();
+            Quaternion qA = QuaternionIdentity(); // 
             Quaternion qB = QuaternionFromEuler(0.0f, 0.0f, 180.0f * DEG2RAD);
             Quaternion qC = QuaternionSlerp(qA, qB, a);
 
@@ -305,7 +371,8 @@ int main()
 
             glUniform3f(u_color, 1.0f, 1.0f, 1.0f);
             glBindVertexArray(vertex_array_rainbow);
-            glDrawArrays(GL_TRIANGLES, 0, 3);
+            glDrawArrays(GL_TRIANGLES, 0, 3);*/
+			
             break;
         }
         default:
